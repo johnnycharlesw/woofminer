@@ -7,7 +7,7 @@ chdir(__DIR__);
 foreach (glob("*.html") as $filename) {
 	if (!preg_match('~^pdo-|elastic|screenshots~', $filename)) {
 		$file = file_get_contents($filename);
-		$file = preg_replace_callback('~/((adminer|editor)/[^?<]*)(\??)~', function ($match) {
+		$file = preg_replace_callback('~/((woofminer|editor)/[^?<]*)(\??)~', function ($match) {
 			return "/$match[1]?ext=pdo" . ($match[3] ? "&amp;" : "");
 		}, $file);
 		$file = str_replace("<tr><td>open</td><td>/coverage.php?coverage=0</td><td></td></tr>\n", "", $file);

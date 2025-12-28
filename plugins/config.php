@@ -1,63 +1,63 @@
 <?php
 
 /** Configure options by end-users and store them to a cookie
-* @link https://www.adminer.org/plugins/#use
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerConfig extends Adminer\Plugin {
+class AdminerConfig extends Woofminer\Plugin {
 
 	function headers() {
 		static $called; // this function is called from page_header() and it also calls page_header()
-		if (isset($_GET["config"]) && !$called && Adminer\connection()) {
+		if (isset($_GET["config"]) && !$called && Woofminer\connection()) {
 			$called = true;
 			if ($_GET["config"]) { // using $_GET allows sharing links between devices but doesn't protect against same-site RF; CSRF is protected by SameSite cookies
-				Adminer\save_settings($_GET["config"], "adminer_config");
-				Adminer\redirect(null, $this->lang('Configuration saved.'));
+				Woofminer\save_settings($_GET["config"], "adminer_config");
+				Woofminer\redirect(null, $this->lang('Configuration saved.'));
 			}
-			Adminer\page_header($this->lang('Configuration'));
-			$config = Adminer\adminer()->config();
+			Woofminer\page_header($this->lang('Configuration'));
+			$config = Woofminer\woofminer()->config();
 			if (!$config) {
 				// this plugin itself defines config() so this branch is not currently used
-				echo "<p>" . $this->lang('Only some plugins support configuration, e.g. %s.', '<a href="https://github.com/vrana/adminer/blob/master/plugins/menu-links.php"' . Adminer\target_blank() . '>menu-links</a>') . "\n";
+				echo "<p>" . $this->lang('Only some plugins support configuration, e.g. %s.', '<a href="https://github.com/johnnycharlesw/woofminer/blob/master/plugins/menu-links.php"' . Woofminer\target_blank() . '>menu-links</a>') . "\n";
 			} else {
 				echo "<form action=''>\n";
-				Adminer\hidden_fields_get();
+				Woofminer\hidden_fields_get();
 				echo "<table>\n";
 				foreach (array_reverse($config) as $title => $html) { // Plugins::$append actually prepends
 					echo "<tr><th>$title<td>$html\n";
 				}
 				echo "</table>\n";
-				echo "<p><input type='submit' value='" . Adminer\lang('Save') . "'>\n";
+				echo "<p><input type='submit' value='" . Woofminer\lang('Save') . "'>\n";
 				echo "</form>\n";
 			}
-			Adminer\page_footer('db');
+			Woofminer\page_footer('db');
 			exit;
 		}
 	}
 
 	function config() {
 		$options = array(
-			'' => $this->lang('Use %s if exists', "adminer.css"),
+			'' => $this->lang('Use %s if exists', "woofminer.css"),
 			'builtin' => $this->lang('Use builtin design'),
 		);
-		return array($this->lang('Design') => Adminer\html_radios('config[design]', $options, Adminer\get_setting("design", "adminer_config"), "<br>"));
+		return array($this->lang('Design') => Woofminer\html_radios('config[design]', $options, Woofminer\get_setting("design", "adminer_config"), "<br>"));
 	}
 
 	function css() {
-		if (Adminer\get_setting("design", "adminer_config") == "builtin") {
+		if (Woofminer\get_setting("design", "adminer_config") == "builtin") {
 			return array();
 		}
 	}
 
 	function pluginsLinks() {
-		$link = preg_replace('~\b(db|ns)=[^&]*&~', '', Adminer\ME);
-		echo "<p><a href='" . Adminer\h($link) . "config='>" . $this->lang('Configuration') . "</a>\n";
+		$link = preg_replace('~\b(db|ns)=[^&]*&~', '', Woofminer\ME);
+		echo "<p><a href='" . Woofminer\h($link) . "config='>" . $this->lang('Configuration') . "</a>\n";
 	}
 
 	function screenshot() {
-		return "https://www.adminer.org/static/plugins/config.png";
+		return "https://www.github.com/johnnycharlesw/woofminer/wiki/static/plugins/config.png";
 	}
 
 	protected $translations = array(
@@ -77,6 +77,7 @@ class AdminerConfig extends Adminer\Plugin {
 			'Design' => 'Wygląd',
 			'Use %s if exists' => 'Użyj %s, jeśli istnieje',
 			'Use builtin design' => 'Użyj wbudowanego wyglądu',
+			'' => null,
 		),
 		'de' => array(
 			'' => 'Optionen durch den Endbenutzer konfigurieren und dies in einem Cookie speichern',
@@ -95,6 +96,377 @@ class AdminerConfig extends Adminer\Plugin {
 			'Design' => 'デザイン',
 			'Use %s if exists' => 'あれば %s を使う',
 			'Use builtin design' => '組込みのデザインを使う',
+		),
+		'ar' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'bg' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'bn' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'bs' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'ca' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'da' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'el' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'en' => array(
+		),
+		'es' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'et' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'fa' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'fi' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'fr' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'gl' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'he' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'hi' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'hu' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'id' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'it' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'ka' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'ko' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'lt' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'lv' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'ms' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'nl' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'no' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'pt-br' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'pt' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'ro' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'ru' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'sk' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'sl' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'sr' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'sv' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'ta' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'th' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'tr' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'uk' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'uz' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'vi' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'zh-tw' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
+		),
+		'zh' => array(
+			'' => null,
+			'Configuration saved.' => null,
+			'Configuration' => null,
+			'Only some plugins support configuration, e.g. %s.' => null,
+			'Use %s if exists' => null,
+			'Use builtin design' => null,
+			'Design' => null,
 		),
 	);
 }

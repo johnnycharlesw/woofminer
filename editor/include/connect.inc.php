@@ -1,4 +1,4 @@
 <?php
-namespace Adminer;
+namespace Woofminer;
 
-connection()->select_db(adminer()->database());
+connection()->select_db(woofminer()->database());

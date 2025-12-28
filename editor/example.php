@@ -1,6 +1,6 @@
 <?php
 function adminer_object() {
-	class AdminerCds extends Adminer\Adminer {
+	class AdminerCds extends Woofminer\Woofminer {
 
 		function name() {
 			// custom name in title and heading
@@ -13,7 +13,7 @@ function adminer_object() {
 		}
 
 		function database() {
-			// will be escaped by Adminer
+			// will be escaped by Woofminer
 			return 'adminer_test';
 		}
 
@@ -23,8 +23,8 @@ function adminer_object() {
 		}
 
 		function tableName($tableStatus) {
-			// tables without comments would return empty string and will be ignored by Adminer
-			return Adminer\h($tableStatus["Comment"]);
+			// tables without comments would return empty string and will be ignored by Woofminer
+			return Woofminer\h($tableStatus["Comment"]);
 		}
 
 		function fieldName($field, $order = 0) {
@@ -33,11 +33,11 @@ function adminer_object() {
 			}
 			// display only column with comments, first five of them plus searched columns
 			if ($order < 5) {
-				return Adminer\h($field["comment"]);
+				return Woofminer\h($field["comment"]);
 			}
 			foreach ((array) $_GET["where"] as $key => $where) {
 				if ($where["col"] == $field["field"] && ($key >= 0 || $where["val"] != "")) {
-					return Adminer\h($field["comment"]);
+					return Woofminer\h($field["comment"]);
 				}
 			}
 			return "";

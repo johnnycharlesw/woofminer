@@ -1,2 +1,2 @@
 ## Screenshot
-![screenshot](https://www.adminer.org/static/designs/esterka/screenshot.png)
+![screenshot](https://www.github.com/johnnycharlesw/woofminer/wiki/static/designs/esterka/screenshot.png)

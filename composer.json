@@ -1,24 +1,28 @@
 {
-    "name": "vrana/adminer",
+    "name": "johnnycharlesw-github/woofminer",
     "description": "Database management in a single PHP file.",
-    "homepage": "https://www.adminer.org/",
+    "homepage": "https://www.github.com/johnnycharlesw/woofminer/wiki/",
     "keywords": [
         "database"
     ],
     "support": {
-        "issues": "https://github.com/vrana/adminer/issues",
-        "forum": "https://github.com/vrana/adminer/discussions",
-        "source": "https://github.com/vrana/adminer/"
+        "issues": "https://github.com/johnnycharlesw/woofminer/issues",
+        "forum": "https://github.com/johnnycharlesw/woofminer/discussions",
+        "source": "https://github.com/johnnycharlesw/woofminer/"
     },
     "authors": [
         {
             "name": "Jakub Vrána",
             "homepage": "https://www.vrana.cz/"
+        },
+        {
+            "name": "John Charles Woods",
+            "homepage": "https://github.com/johnnycharlesw"
         }
     ],
     "autoload": {
         "exclude-from-classmap": [
-            "adminer/drivers/",
+            "woofminer/drivers/",
             "plugins/drivers/"
         ],
         "classmap": [
@@ -36,8 +40,6 @@
         "check": [
             "phpcs",
             "phpstan analyse -c phpstan.neon"
-        ],
-        "compile": "@php compile.php",
-        "clean": "rm -f adminer*.php editor*.php"
+        ]
     }
 }

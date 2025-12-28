@@ -11,28 +11,28 @@ CREATE TABLE translation (
 */
 
 /** Translate all table and field comments, enum and set values from the translation table (inserts new translations)
-* @link https://www.adminer.org/plugins/#use
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerTranslation extends Adminer\Plugin {
+class AdminerTranslation extends Woofminer\Plugin {
 
 	private function translate($idf) {
 		static $translations, $lang;
 		if ($lang === null) {
-			$lang = Adminer\LANG;
+			$lang = Woofminer\LANG;
 		}
 		if ($idf == "" || $lang == "en") {
 			return $idf;
 		}
 		if ($translations === null) {
-			$translations = Adminer\get_key_vals("SELECT idf, translation FROM translation WHERE language_id = " . Adminer\q($lang));
+			$translations = Woofminer\get_key_vals("SELECT idf, translation FROM translation WHERE language_id = " . Woofminer\q($lang));
 		}
 		$return = &$translations[$idf];
 		if ($return === null) {
 			$return = $idf;
-			Adminer\connection()->query("INSERT INTO translation (language_id, idf, translation) VALUES (" . Adminer\q($lang) . ", " . Adminer\q($idf) . ", " . Adminer\q($idf) . ")");
+			Woofminer\connection()->query("INSERT INTO translation (language_id, idf, translation) VALUES (" . Woofminer\q($lang) . ", " . Woofminer\q($idf) . ", " . Woofminer\q($idf) . ")");
 		}
 		return $return;
 	}
@@ -57,5 +57,47 @@ class AdminerTranslation extends Adminer\Plugin {
 		'pl' => array('' => 'Przetłumacz wszystkie komentarze do tabeli i pól, wartości enum i set z tabeli "translation" (automatycznie wstawia nowe tłumaczenia)'),
 		'ro' => array('' => 'Traduceți toate comentariile tabelelor și câmpurilor, valorile enum și set din tabelul "translation" (inserează automat noi traduceri)'),
 		'ja' => array('' => 'テーブル "translation" を用いてすべてのテーブルや列のコメント、列挙型、セット値を翻訳 (自動的に翻訳文で更新)'),
+		'ar' => array('' => null),
+		'bg' => array('' => null),
+		'bn' => array('' => null),
+		'bs' => array('' => null),
+		'ca' => array('' => null),
+		'da' => array('' => null),
+		'el' => array('' => null),
+		'en' => array(
+		),
+		'es' => array('' => null),
+		'et' => array('' => null),
+		'fa' => array('' => null),
+		'fi' => array('' => null),
+		'fr' => array('' => null),
+		'gl' => array('' => null),
+		'he' => array('' => null),
+		'hi' => array('' => null),
+		'hu' => array('' => null),
+		'id' => array('' => null),
+		'it' => array('' => null),
+		'ka' => array('' => null),
+		'ko' => array('' => null),
+		'lt' => array('' => null),
+		'lv' => array('' => null),
+		'ms' => array('' => null),
+		'nl' => array('' => null),
+		'no' => array('' => null),
+		'pt-br' => array('' => null),
+		'pt' => array('' => null),
+		'ru' => array('' => null),
+		'sk' => array('' => null),
+		'sl' => array('' => null),
+		'sr' => array('' => null),
+		'sv' => array('' => null),
+		'ta' => array('' => null),
+		'th' => array('' => null),
+		'tr' => array('' => null),
+		'uk' => array('' => null),
+		'uz' => array('' => null),
+		'vi' => array('' => null),
+		'zh-tw' => array('' => null),
+		'zh' => array('' => null),
 	);
 }

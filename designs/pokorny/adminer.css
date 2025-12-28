@@ -1,5 +1,5 @@
 /**
- * Alternative style for Adminer.
+ * Alternative style for Woofminer.
  * Created by Miroslav Pokorný [http://fuch.cz].
  * Icons by Yusuke Kamiyamane [http://p.yusukekamiyamane.com/] (some of them were modified).
  * Slightly inspired by themes created by Martin Hořínek and Klemens Häckel.
@@ -34,7 +34,7 @@ html>/**/body #dump {
     background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAjpJREFUeNqMU8+LElEc/8w4qeM4urvsCgqpEO7VYu/9YAmkNqiDRNdOQtC5k3QIL127BF78G+rQqegQlBRRhz24S0jWuumOrs74c2be9H2jkuJi+4XPvMe87/f73ufzPk/IZrOYxh1CFOeLOuEVn0izP6PRKFosFl/2ej0MBgNYlo1m06A5g98vQ1VVhEIhhMMh5HL3H3k8Hiw04GFZFjqdDjRNcxs0GjqGIwZFUWHZFkSPiIAiLxxFXHlQAXBocAQ2ASY4fwNKnxQ602LbxXzMU/hSKBRep9PpPcYY+v3+lIpFGvgRDAaJfxiVSuUN5X4+q8FOPp/fmxexcdJFbziG1+dFUFUQJhFv3r6XeZx7yG+g/F8R/5x00BuPIZNwJltD9WAffUNHq9VyeM5Sg2UR/3Fngo3uaRuZBxm6xhzX7grh60oRGbPAzCH6py38qlRgmia0Yw2H2uELWr7OaQszJ5KRduLx+NN5EU3bxPrWOhKXEohejCKgBhY2SG2mnkg8ebIbWxLx5+9jNNtNHOz/wLdP3zEaDLF7dxeRWATbW9t5QRDei7VaDbquwzAMZyZivV4nHKHV0WBYA1zYUJC4nMKYBJ0WP6M93xI+iuVyGdVqlSsvrTQTQVkLovi8iGQy2ZZl+YNt2+4tyGQONRaLBSRJcs3i9XpdCh6fjMCwC9EnQAnKuHrrmuuFUqkk0IkjVKuT27FBiFHHG47jbPKuNE5fAoimwD8QRZGPDp/TepN0ekfrR38FGAASfDL3E+dZ1QAAAABJRU5ErkJggg==") no-repeat 2px bottom;
     padding-left: 22px;
 }
-/* Modified adminer logo */
+/* Modified woofminer logo */
 html>/**/body h1 {
     box-shadow: 0px 0px 3px rgba(0,0,0,0.30) !important;
     font-size: 1em;

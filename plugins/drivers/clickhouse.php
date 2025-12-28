@@ -1,10 +1,10 @@
 <?php
-namespace Adminer;
+namespace Woofminer;
 
 add_driver("clickhouse", "ClickHouse (alpha)");
 
 if (isset($_GET["clickhouse"])) {
-	define('Adminer\DRIVER', "clickhouse");
+	define('Woofminer\DRIVER', "clickhouse");
 
 	if (ini_bool('allow_url_fopen')) {
 		class Db extends SqlDb {
@@ -254,7 +254,7 @@ if (isset($_GET["clickhouse"])) {
 	}
 
 	function logged_user() {
-		$credentials = adminer()->credentials();
+		$credentials = woofminer()->credentials();
 		return $credentials[1];
 	}
 

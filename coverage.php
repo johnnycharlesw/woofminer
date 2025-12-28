@@ -7,7 +7,7 @@
 <body>
 
 <?php
-include "./adminer/include/errors.inc.php";
+include "./woofminer/include/errors.inc.php";
 
 function xhtml_open_tags($s) {
 	// returns array of opened tags in $s
@@ -23,13 +23,13 @@ function xhtml_open_tags($s) {
 	return $return;
 }
 
-$coverage_filename = sys_get_temp_dir() . "/adminer.coverage";
+$coverage_filename = sys_get_temp_dir() . "/woofminer.coverage";
 if (!extension_loaded("xdebug")) {
 	echo "<p class='error'>Xdebug has to be enabled.\n";
 } elseif ($_GET["coverage"] === "0") {
 	file_put_contents($coverage_filename, serialize(array()));
 	echo "<p class='message'>Coverage started.\n";
-} elseif (preg_match('~^(adminer|editor)/(include/|drivers/)?[-_.a-z0-9]+$~i', $_GET["coverage"])) {
+} elseif (preg_match('~^(woofminer|editor)/(include/|drivers/)?[-_.a-z0-9]+$~i', $_GET["coverage"])) {
 	// highlight single file
 	$filename = $_GET["coverage"];
 	$coverage = (file_exists($coverage_filename) ? unserialize(file_get_contents($coverage_filename)) : array());
@@ -72,7 +72,7 @@ if (!extension_loaded("xdebug")) {
 		// display list of files
 		$coverage = unserialize(file_get_contents($coverage_filename));
 		echo "<table border='1' cellspacing='0'>\n";
-		foreach (array_merge(glob("adminer/*.php"), glob("adminer/drivers/*.php"), glob("adminer/include/*.php"), glob("editor/*.php"), glob("editor/include/*.php")) as $filename) {
+		foreach (array_merge(glob("woofminer/*.php"), glob("woofminer/drivers/*.php"), glob("woofminer/include/*.php"), glob("editor/*.php"), glob("editor/include/*.php")) as $filename) {
 			$cov = $coverage[realpath($filename)];
 			$ratio = 0;
 			if (is_array($cov)) {

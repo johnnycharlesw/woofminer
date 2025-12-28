@@ -1,27 +1,27 @@
 <?php
 
 /** Allow sending e-mails to addresses in table
-* @link https://www.adminer.org/plugins/#use
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerSelectEmail extends Adminer\Plugin {
+class AdminerSelectEmail extends Woofminer\Plugin {
 
 	function selectEmailPrint($emailFields, $columns) {
 		if ($emailFields) {
-			Adminer\print_fieldset("email", $this->lang('E-mail'), $_POST["email_append"]);
+			Woofminer\print_fieldset("email", $this->lang('E-mail'), $_POST["email_append"]);
 			echo "<div>";
-			echo Adminer\script("qsl('div').onkeydown = partialArg(bodyKeydown, 'email');");
-			echo Adminer\script("function emailFileChange() { const el = this.cloneNode(true); this.onchange = null; el.onchange = emailFileChange; el.value = ''; this.parentNode.appendChild(el); }");
-			echo "<p>" . $this->lang('From') . ": <input name='email_from' value='" . Adminer\h($_POST ? $_POST["email_from"] : $_COOKIE["adminer_email"]) . "'>\n";
-			echo $this->lang('Subject') . ": <input name='email_subject' value='" . Adminer\h($_POST["email_subject"]) . "'>\n";
-			echo "<p><textarea name='email_message' rows='15' cols='75'>" . Adminer\h($_POST["email_message"] . ($_POST["email_append"] ? '{$' . "$_POST[email_addition]}" : "")) . "</textarea>\n";
-			echo "<p>" . Adminer\script("qsl('p').onkeydown = partialArg(bodyKeydown, 'email_append');", "") . Adminer\html_select("email_addition", $columns, $_POST["email_addition"])
-				. " <input type='submit' name='email_append' value='" . Adminer\lang('Insert') . "'>\n"; //! JavaScript
-			echo "<p>" . $this->lang('Attachments') . ": <input type='file' name='email_files[]'>" . Adminer\script("qsl('input').onchange = emailFileChange;");
-			echo "<p>" . (count($emailFields) == 1 ? Adminer\input_hidden("email_field", key($emailFields)) : Adminer\html_select("email_field", $emailFields));
-			echo "<input type='submit' name='email' value='" . $this->lang('Send') . "'>" . Adminer\confirm();
+			echo Woofminer\script("qsl('div').onkeydown = partialArg(bodyKeydown, 'email');");
+			echo Woofminer\script("function emailFileChange() { const el = this.cloneNode(true); this.onchange = null; el.onchange = emailFileChange; el.value = ''; this.parentNode.appendChild(el); }");
+			echo "<p>" . $this->lang('From') . ": <input name='email_from' value='" . Woofminer\h($_POST ? $_POST["email_from"] : $_COOKIE["adminer_email"]) . "'>\n";
+			echo $this->lang('Subject') . ": <input name='email_subject' value='" . Woofminer\h($_POST["email_subject"]) . "'>\n";
+			echo "<p><textarea name='email_message' rows='15' cols='75'>" . Woofminer\h($_POST["email_message"] . ($_POST["email_append"] ? '{$' . "$_POST[email_addition]}" : "")) . "</textarea>\n";
+			echo "<p>" . Woofminer\script("qsl('p').onkeydown = partialArg(bodyKeydown, 'email_append');", "") . Woofminer\html_select("email_addition", $columns, $_POST["email_addition"])
+				. " <input type='submit' name='email_append' value='" . Woofminer\lang('Insert') . "'>\n"; //! JavaScript
+			echo "<p>" . $this->lang('Attachments') . ": <input type='file' name='email_files[]'>" . Woofminer\script("qsl('input').onchange = emailFileChange;");
+			echo "<p>" . (count($emailFields) == 1 ? Woofminer\input_hidden("email_field", key($emailFields)) : Woofminer\html_select("email_field", $emailFields));
+			echo "<input type='submit' name='email' value='" . $this->lang('Send') . "'>" . Woofminer\confirm();
 			echo "</div>\n";
 			echo "</div></fieldset>\n";
 			return true;
@@ -35,30 +35,30 @@ class AdminerSelectEmail extends Adminer\Plugin {
 		if ($_POST["email"]) {
 			$sent = 0;
 			if ($_POST["all"] || $_POST["check"]) {
-				$field = Adminer\idf_escape($_POST["email_field"]);
+				$field = Woofminer\idf_escape($_POST["email_field"]);
 				$subject = $_POST["email_subject"];
 				$message = $_POST["email_message"];
 				preg_match_all('~\{\$([a-z0-9_]+)\}~i', "$subject.$message", $matches); // allows {$name} in subject or message
-				$rows = Adminer\get_rows(
-					"SELECT DISTINCT $field" . ($matches[1] ? ", " . implode(", ", array_map('Adminer\idf_escape', array_unique($matches[1]))) : "") . " FROM " . Adminer\table($_GET["select"])
+				$rows = Woofminer\get_rows(
+					"SELECT DISTINCT $field" . ($matches[1] ? ", " . implode(", ", array_map('Woofminer\idf_escape', array_unique($matches[1]))) : "") . " FROM " . Woofminer\table($_GET["select"])
 					. " WHERE $field IS NOT NULL AND $field != ''"
 					. ($where ? " AND " . implode(" AND ", $where) : "")
-					. ($_POST["all"] ? "" : " AND ((" . implode(") OR (", array_map('Adminer\where_check', (array) $_POST["check"])) . "))")
+					. ($_POST["all"] ? "" : " AND ((" . implode(") OR (", array_map('Woofminer\where_check', (array) $_POST["check"])) . "))")
 				);
-				$fields = Adminer\fields($_GET["select"]);
-				foreach (Adminer\adminer()->rowDescriptions($rows, $foreignKeys) as $row) {
+				$fields = Woofminer\fields($_GET["select"]);
+				foreach (Woofminer\woofminer()->rowDescriptions($rows, $foreignKeys) as $row) {
 					$replace = array('{\\' => '{'); // allow literal {$name}
 					foreach ($matches[1] as $val) {
-						$replace['{$' . "$val}"] = Adminer\adminer()->editVal($row[$val], $fields[$val]);
+						$replace['{$' . "$val}"] = Woofminer\woofminer()->editVal($row[$val], $fields[$val]);
 					}
 					$email = $row[$_POST["email_field"]];
-					if (Adminer\is_mail($email) && $this->sendMail($email, strtr($subject, $replace), strtr($message, $replace), $_POST["email_from"], $_FILES["email_files"])) {
+					if (Woofminer\is_mail($email) && $this->sendMail($email, strtr($subject, $replace), strtr($message, $replace), $_POST["email_from"], $_FILES["email_files"])) {
 						$sent++;
 					}
 				}
 			}
-			Adminer\cookie("adminer_email", $_POST["email_from"]);
-			Adminer\redirect(Adminer\remove_from_uri(), $this->lang('%d e-mail(s) have been sent.', $sent));
+			Woofminer\cookie("adminer_email", $_POST["email_from"]);
+			Woofminer\redirect(Woofminer\remove_from_uri(), $this->lang('%d e-mail(s) have been sent.', $sent));
 		}
 		return false;
 	}
@@ -94,7 +94,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			$beginning = "--$boundary$eol$headers$eol$eol";
 			$headers = "Content-Type: multipart/mixed; boundary=\"$boundary\"";
 		}
-		$headers .= $eol . "MIME-Version: 1.0$eol" . "X-Mailer: Adminer Editor"
+		$headers .= $eol . "MIME-Version: 1.0$eol" . "X-Mailer: Woofminer Editor"
 			. ($from ? $eol . "From: " . str_replace("\n", "", $from) : "") //! should escape display name
 		;
 		return mail($email, $this->emailHeader($subject), $beginning . $message . $attachments, $headers);
@@ -108,6 +108,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'إرسال',
 			'%d e-mail(s) have been sent.' => 'تم إرسال %d رسالة.',
 			'Attachments' => 'ملفات مرفقة',
+			'' => null,
 		),
 		'bg' => array(
 			'E-mail' => 'E-mail',
@@ -116,6 +117,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Прикачени',
 			'Send' => 'Изпращане',
 			'%d e-mail(s) have been sent.' => array('%d писмо беше изпратено.', '%d писма бяха изпратени.'),
+			'' => null,
 		),
 		'bn' => array(
 			'E-mail' => '​​ই-মেইল',
@@ -124,6 +126,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'পাঠান',
 			'%d e-mail(s) have been sent.' => array('%d ইমেইল(গুলি) পাঠানো হয়েছে।', '%d ইমেইল(গুলি) পাঠানো হয়েছে।'),
 			'Attachments' => 'সংযুক্তিগুলো',
+			'' => null,
 		),
 		'bs' => array(
 			'E-mail' => 'El. pošta',
@@ -132,6 +135,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Prilozi',
 			'Send' => 'Pošalji',
 			'%d e-mail(s) have been sent.' => array('%d poruka el. pošte je poslata.', '%d poruke el. pošte su poslate.', '%d poruka el. pošte je poslato.'),
+			'' => null,
 		),
 		'ca' => array(
 			'E-mail' => 'Correu electrònic',
@@ -140,6 +144,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Envia',
 			'%d e-mail(s) have been sent.' => array('S\'ha enviat %d correu electrònic.', 'S\'han enviat %d correus electrònics.'),
 			'Attachments' => 'Adjuncions',
+			'' => null,
 		),
 		'cs' => array(
 			'' => 'Umožňuje posílat e-maily na adresy v tabulce',
@@ -157,6 +162,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Vedhæft',
 			'Send' => 'Send',
 			'%d e-mail(s) have been sent.' => array('%d email sendt.', '%d emails sendt.'),
+			'' => null,
 		),
 		'de' => array(
 			'E-mail' => 'E-Mail',
@@ -165,6 +171,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Abschicken',
 			'%d e-mail(s) have been sent.' => array('%d E-Mail abgeschickt.', '%d E-Mails abgeschickt.'),
 			'Attachments' => 'Anhänge',
+			'' => null,
 		),
 		'el' => array(
 			'E-mail' => 'E-mail',
@@ -173,6 +180,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Συνημμένα',
 			'Send' => 'Αποστολή',
 			'%d e-mail(s) have been sent.' => array('%d e-mail απεστάλη.', '%d e-mail απεστάλησαν.'),
+			'' => null,
 		),
 		'en' => array(
 			'%d e-mail(s) have been sent.' => array('%d e-mail has been sent.', '%d e-mails have been sent.'),
@@ -184,6 +192,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Enviar',
 			'%d e-mail(s) have been sent.' => array('%d email enviado.', '%d emails enviados.'),
 			'Attachments' => 'Adjuntos',
+			'' => null,
 		),
 		'et' => array(
 			'E-mail' => 'E-post',
@@ -192,6 +201,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Saada',
 			'%d e-mail(s) have been sent.' => 'Saadetud kirju: %d.',
 			'Attachments' => 'Manused',
+			'' => null,
 		),
 		'fa' => array(
 			'E-mail' => 'پست الکترونیک',
@@ -200,6 +210,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'پیوست ها',
 			'Send' => 'ارسال',
 			'%d e-mail(s) have been sent.' => array('%d ایمیل ارسال شد.', '%d ایمیل ارسال شد.'),
+			'' => null,
 		),
 		'fi' => array(
 			'E-mail' => 'S-posti',
@@ -208,6 +219,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Liitteet',
 			'Send' => 'Lähetä',
 			'%d e-mail(s) have been sent.' => array('% sähköpostiviestiä lähetetty.', '% sähköpostiviestiä lähetetty.'),
+			'' => null,
 		),
 		'fr' => array(
 			'E-mail' => 'Courriel',
@@ -216,6 +228,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Envoyer',
 			'%d e-mail(s) have been sent.' => array('%d message a été envoyé.', '%d messages ont été envoyés.'),
 			'Attachments' => 'Pièces jointes',
+			'' => null,
 		),
 		'gl' => array(
 			'E-mail' => 'Email',
@@ -224,6 +237,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Enviar',
 			'%d e-mail(s) have been sent.' => array('%d email enviado.', '%d emails enviados.'),
 			'Attachments' => 'Adxuntos',
+			'' => null,
 		),
 		'he' => array(
 			'E-mail' => 'דוא"ל',
@@ -232,6 +246,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'שלח',
 			'%d e-mail(s) have been sent.' => '%d הודעות דוא"ל נשלחו',
 			'Attachments' => 'קבצים מצורפים',
+			'' => null,
 		),
 		'hu' => array(
 			'E-mail' => 'E-mail',
@@ -240,6 +255,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Küldés',
 			'%d e-mail(s) have been sent.' => array('%d e-mail elküldve.', '%d e-mail elküldve.', '%d e-mail elküldve.'),
 			'Attachments' => 'Csatolmány',
+			'' => null,
 		),
 		'id' => array(
 			'E-mail' => 'Surel',
@@ -248,6 +264,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Lampiran',
 			'Send' => 'Kirim',
 			'%d e-mail(s) have been sent.' => '%d surel berhasil dikirim.',
+			'' => null,
 		),
 		'it' => array(
 			'E-mail' => 'E-mail',
@@ -256,6 +273,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Invia',
 			'%d e-mail(s) have been sent.' => array('%d e-mail inviata.', '%d e-mail inviate.'),
 			'Attachments' => 'Allegati',
+			'' => null,
 		),
 		'ja' => array(
 			'' => 'テーブルに含まれるアドレスにメールを送信',
@@ -273,6 +291,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'გაგზავნა',
 			'%d e-mail(s) have been sent.' => 'გაიგზავნა %d წერილი.',
 			'Attachments' => 'მიმაგრებული ფაილები',
+			'' => null,
 		),
 		'ko' => array(
 			'%d e-mail(s) have been sent.' => '%d개 메일을 보냈습니다.',
@@ -281,6 +300,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'From' => '보낸 사람',
 			'Send' => '보내기',
 			'Subject' => '제목',
+			'' => null,
 		),
 		'lt' => array(
 			'E-mail' => 'El. paštas',
@@ -289,6 +309,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Priedai',
 			'Send' => 'Siųsti',
 			'%d e-mail(s) have been sent.' => array('Išsiųstas %d laiškas.', 'Išsiųsti %d laiškai.', 'Išsiųsta %d laiškų.'),
+			'' => null,
 		),
 		'lv' => array(
 			'E-mail' => 'Epasts',
@@ -297,6 +318,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Sūtīt',
 			'%d e-mail(s) have been sent.' => array('Nosūtīts %d epasts.', 'Nosūtīti %d epasti.', 'Nosūtīti %d epasti.'),
 			'Attachments' => 'Pielikumi',
+			'' => null,
 		),
 		'ms' => array(
 			'E-mail' => 'Emel',
@@ -305,6 +327,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Lampiran',
 			'Send' => 'Hantar',
 			'%d e-mail(s) have been sent.' => '%d emel telah dihantar.',
+			'' => null,
 		),
 		'nl' => array(
 			'E-mail' => 'E-mail',
@@ -313,6 +336,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Verzenden',
 			'%d e-mail(s) have been sent.' => array('%d e-mail verzonden.', '%d e-mails verzonden.'),
 			'Attachments' => 'Bijlagen',
+			'' => null,
 		),
 		'no' => array(
 			'E-mail' => 'E-post',
@@ -321,6 +345,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Vedlegg',
 			'Send' => 'Send',
 			'%d e-mail(s) have been sent.' => array('%d epost sendt.', '%d eposter sendt.'),
+			'' => null,
 		),
 		'pl' => array(
 			'E-mail' => 'E-mail',
@@ -329,6 +354,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Załączniki',
 			'Send' => 'Wyślij',
 			'%d e-mail(s) have been sent.' => array('Wysłano %d e-mail.', 'Wysłano %d e-maile.', 'Wysłano %d e-maili.'),
+			'' => null,
 		),
 		'pt-br' => array(
 			'E-mail' => 'E-mail',
@@ -337,6 +363,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Enviar',
 			'%d e-mail(s) have been sent.' => array('%d email foi enviado.', '%d emails foram enviados.'),
 			'Attachments' => 'Anexos',
+			'' => null,
 		),
 		'pt' => array(
 			'E-mail' => 'E-mail',
@@ -345,6 +372,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Enviar',
 			'%d e-mail(s) have been sent.' => array('%d email enviado.', '%d emails enviados.'),
 			'Attachments' => 'Anexos',
+			'' => null,
 		),
 		'ro' => array(
 			'E-mail' => 'Poșta electronică',
@@ -353,6 +381,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Trimite',
 			'%d e-mail(s) have been sent.' => array('A fost trimis %d mail.', 'Au fost trimise %d mail-uri.'),
 			'Attachments' => 'Fișiere atașate',
+			'' => null,
 		),
 		'ru' => array(
 			'E-mail' => 'Эл. почта',
@@ -361,6 +390,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Послать',
 			'%d e-mail(s) have been sent.' => array('Было отправлено %d письмо.', 'Было отправлено %d письма.', 'Было отправлено %d писем.'),
 			'Attachments' => 'Прикреплённые файлы',
+			'' => null,
 		),
 		'sk' => array(
 			'E-mail' => 'E-mail',
@@ -369,6 +399,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'Odoslať',
 			'%d e-mail(s) have been sent.' => array('Bol odoslaný %d e-mail.', 'Boli odoslané %d e-maily.', 'Bolo odoslaných %d e-mailov.'),
 			'Attachments' => 'Prílohy',
+			'' => null,
 		),
 		'sl' => array(
 			'E-mail' => 'E-mail',
@@ -377,6 +408,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Priponke',
 			'Send' => 'Pošlji',
 			'%d e-mail(s) have been sent.' => array('Poslan je %d e-mail.', 'Poslana sta %d e-maila.', 'Poslani so %d e-maili.', 'Poslanih je %d e-mailov.'),
+			'' => null,
 		),
 		'sr' => array(
 			'E-mail' => 'Ел. пошта',
@@ -385,6 +417,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Прилози',
 			'Send' => 'Пошаљи',
 			'%d e-mail(s) have been sent.' => array('%d порука ел. поште је послата.', '%d поруке ел. поште су послате.', '%d порука ел. поште је послато.'),
+			'' => null,
 		),
 		'sv' => array(
 			'E-mail' => 'Email',
@@ -393,6 +426,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Bilagor',
 			'Send' => 'Skicka',
 			'%d e-mail(s) have been sent.' => array('%d email har blivit skickat.', '%d email har blivit skickade.'),
+			'' => null,
 		),
 		'ta' => array(
 			'E-mail' => 'மின்ன‌ஞ்ச‌ல்',
@@ -401,6 +435,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'அனுப்பு',
 			'%d e-mail(s) have been sent.' => array('%d மின்ன‌ஞ்ச‌ல் அனுப்ப‌ப‌ட்ட‌து.', '%d மின்ன‌ஞ்ச‌ல்க‌ள் அனுப்ப‌ப்ப‌ட்ட‌ன‌.'),
 			'Attachments' => 'இணைப்புக‌ள்',
+			'' => null,
 		),
 		'th' => array(
 			'E-mail' => 'อีเมล์',
@@ -409,6 +444,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Send' => 'ส่ง',
 			'%d e-mail(s) have been sent.' => 'มี %d อีเมล์ ถูกส่งออกแล้ว.',
 			'Attachments' => 'ไฟล์แนบ',
+			'' => null,
 		),
 		'tr' => array(
 			'E-mail' => 'E-posta',
@@ -417,6 +453,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Ekler',
 			'Send' => 'Gönder',
 			'%d e-mail(s) have been sent.' => array('%d e-posta gönderildi.', '%d adet e-posta gönderildi.'),
+			'' => null,
 		),
 		'uk' => array(
 			'E-mail' => 'E-mail',
@@ -425,6 +462,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Додатки',
 			'Send' => 'Надіслати',
 			'%d e-mail(s) have been sent.' => array('Було надіслано %d повідомлення.', 'Було надіслано %d повідомлення.', 'Було надіслано %d повідомлень.'),
+			'' => null,
 		),
 		'uz' => array(
 			'E-mail' => 'E-pochta',
@@ -433,6 +471,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Ilovalar',
 			'Send' => 'Yuborish',
 			'%d e-mail(s) have been sent.' => array('%d e-pochta yuborildi.', '%d e-pochtalar yuborildi.'),
+			'' => null,
 		),
 		'vi' => array(
 			'E-mail' => 'Địa chỉ email',
@@ -441,6 +480,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => 'Đính kèm',
 			'Send' => 'Gửi',
 			'%d e-mail(s) have been sent.' => '%d thư đã gửi.',
+			'' => null,
 		),
 		'zh-tw' => array(
 			'E-mail' => '電子郵件',
@@ -449,6 +489,7 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => '附件',
 			'Send' => '寄出',
 			'%d e-mail(s) have been sent.' => '已寄出 %d 封郵件。',
+			'' => null,
 		),
 		'zh' => array(
 			'E-mail' => '电子邮件',
@@ -457,5 +498,14 @@ class AdminerSelectEmail extends Adminer\Plugin {
 			'Attachments' => '附件',
 			'Send' => '发送',
 			'%d e-mail(s) have been sent.' => '%d 封邮件已发送。'),
+		// 'hi' => array(,
+			'' => null,
+			// 'E-mail' => null,
+			// 'From' => null,
+			// 'Subject' => null,
+			// 'Attachments' => null,
+			// 'Send' => null,
+			// '%d e-mail(s) have been sent.' => array(),
+		),
 	);
 }

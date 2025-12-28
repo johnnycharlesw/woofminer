@@ -1,13 +1,13 @@
 <?php
 
 /** Display JSON values as table in edit
-* @link https://www.adminer.org/plugins/#use
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
 * @author Martin Zeman (Zemistr), http://www.zemistr.eu/
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerJsonColumn extends Adminer\Plugin {
+class AdminerJsonColumn extends Woofminer\Plugin {
 	private function testJson($value) {
 		if ((substr($value, 0, 1) == '{' || substr($value, 0, 1) == '[') && ($json = json_decode($value, true))) {
 			return $json;
@@ -19,7 +19,7 @@ class AdminerJsonColumn extends Adminer\Plugin {
 		echo '<table style="margin:2px; font-size:100%;">';
 		foreach ($json as $key => $val) {
 			echo '<tr>';
-			echo '<th>' . Adminer\h($key) . '</th>';
+			echo '<th>' . Woofminer\h($key) . '</th>';
 			echo '<td>';
 			if (is_scalar($val) || $val === null) {
 				if (is_bool($val)) {
@@ -27,7 +27,7 @@ class AdminerJsonColumn extends Adminer\Plugin {
 				} elseif ($val === null) {
 					$val = 'null';
 				} elseif (!is_numeric($val)) {
-					$val = '"' . Adminer\h(addcslashes($val, "\r\n\"")) . '"';
+					$val = '"' . Woofminer\h(addcslashes($val, "\r\n\"")) . '"';
 				}
 				echo '<code class="jush-js">' . $val . '</code>';
 			} else {
@@ -52,5 +52,47 @@ class AdminerJsonColumn extends Adminer\Plugin {
 		'pl' => array('' => 'Wyświetl wartości JSON jako tabelę w edycji'),
 		'ro' => array('' => 'Afișează valorile JSON sub formă de tabel în editare'),
 		'ja' => array('' => 'JSON 値をテーブルとして編集画面に表示'),
+		'ar' => array('' => null),
+		'bg' => array('' => null),
+		'bn' => array('' => null),
+		'bs' => array('' => null),
+		'ca' => array('' => null),
+		'da' => array('' => null),
+		'el' => array('' => null),
+		'en' => array(
+		),
+		'es' => array('' => null),
+		'et' => array('' => null),
+		'fa' => array('' => null),
+		'fi' => array('' => null),
+		'fr' => array('' => null),
+		'gl' => array('' => null),
+		'he' => array('' => null),
+		'hi' => array('' => null),
+		'hu' => array('' => null),
+		'id' => array('' => null),
+		'it' => array('' => null),
+		'ka' => array('' => null),
+		'ko' => array('' => null),
+		'lt' => array('' => null),
+		'lv' => array('' => null),
+		'ms' => array('' => null),
+		'nl' => array('' => null),
+		'no' => array('' => null),
+		'pt-br' => array('' => null),
+		'pt' => array('' => null),
+		'ru' => array('' => null),
+		'sk' => array('' => null),
+		'sl' => array('' => null),
+		'sr' => array('' => null),
+		'sv' => array('' => null),
+		'ta' => array('' => null),
+		'th' => array('' => null),
+		'tr' => array('' => null),
+		'uk' => array('' => null),
+		'uz' => array('' => null),
+		'vi' => array('' => null),
+		'zh-tw' => array('' => null),
+		'zh' => array('' => null),
 	);
 }

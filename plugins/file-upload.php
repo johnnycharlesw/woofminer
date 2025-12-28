@@ -2,12 +2,12 @@
 //! handle delete
 
 /** Edit fields ending with "_path" by <input type="file"> and link to the uploaded files from select
-* @link https://www.adminer.org/plugins/#use
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerFileUpload extends Adminer\Plugin {
+class AdminerFileUpload extends Woofminer\Plugin {
 	protected $uploadPath, $displayPath, $extensions;
 
 	/**
@@ -36,16 +36,16 @@ class AdminerFileUpload extends Adminer\Plugin {
 			}
 			//! unlink old
 			$filename = (function_exists('random_bytes') ? bin2hex(random_bytes(8)) : uniqid("", true)) . $regs2[0];
-			if (!move_uploaded_file($_FILES["fields"]["tmp_name"][$name], $this->uploadPath . Adminer\friendly_url($table) . "/$regs[1]-$filename")) {
+			if (!move_uploaded_file($_FILES["fields"]["tmp_name"][$name], $this->uploadPath . Woofminer\friendly_url($table) . "/$regs[1]-$filename")) {
 				return false;
 			}
-			return Adminer\q($filename);
+			return Woofminer\q($filename);
 		}
 	}
 
 	function selectVal($val, &$link, $field, $original) {
 		if ($val != "" && preg_match('~(.*)_path$~', $field["field"], $regs)) {
-			$link = $this->displayPath . Adminer\friendly_url($_GET["select"]) . "/$regs[1]-$val";
+			$link = $this->displayPath . Woofminer\friendly_url($_GET["select"]) . "/$regs[1]-$val";
 		}
 	}
 
@@ -55,5 +55,47 @@ class AdminerFileUpload extends Adminer\Plugin {
 		'pl' => array('' => 'Edytuj pola kończące się na "_path" za pomocą <input type="file"> i link do przesłanych plików z wybierz'),
 		'ro' => array('' => 'Modificați câmpurile care se termină cu "_path" prin <input type="file"> și creați un link către fișierele încărcate din select'),
 		'ja' => array('' => '列名が "_path" で終わる列を <input type="file"> で変更し、"選択" からアップロードされたファイルにリンク'),
+		'ar' => array('' => null),
+		'bg' => array('' => null),
+		'bn' => array('' => null),
+		'bs' => array('' => null),
+		'ca' => array('' => null),
+		'da' => array('' => null),
+		'el' => array('' => null),
+		'en' => array(
+		),
+		'es' => array('' => null),
+		'et' => array('' => null),
+		'fa' => array('' => null),
+		'fi' => array('' => null),
+		'fr' => array('' => null),
+		'gl' => array('' => null),
+		'he' => array('' => null),
+		'hi' => array('' => null),
+		'hu' => array('' => null),
+		'id' => array('' => null),
+		'it' => array('' => null),
+		'ka' => array('' => null),
+		'ko' => array('' => null),
+		'lt' => array('' => null),
+		'lv' => array('' => null),
+		'ms' => array('' => null),
+		'nl' => array('' => null),
+		'no' => array('' => null),
+		'pt-br' => array('' => null),
+		'pt' => array('' => null),
+		'ru' => array('' => null),
+		'sk' => array('' => null),
+		'sl' => array('' => null),
+		'sr' => array('' => null),
+		'sv' => array('' => null),
+		'ta' => array('' => null),
+		'th' => array('' => null),
+		'tr' => array('' => null),
+		'uk' => array('' => null),
+		'uz' => array('' => null),
+		'vi' => array('' => null),
+		'zh-tw' => array('' => null),
+		'zh' => array('' => null),
 	);
 }

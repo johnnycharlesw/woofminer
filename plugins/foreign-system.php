@@ -1,15 +1,15 @@
 <?php
 
 /** Link system tables (in "mysql", "information_schema" and "pg_catalog" schemas) by foreign keys
-* @link https://www.adminer.org/plugins/#use
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerForeignSystem extends Adminer\Plugin {
+class AdminerForeignSystem extends Woofminer\Plugin {
 
 	function foreignKeys($table) {
-		if (Adminer\DRIVER == "server" && Adminer\DB == "mysql") {
+		if (Woofminer\DRIVER == "server" && Woofminer\DB == "mysql") {
 			$return = array(
 				"columns_priv" => array(array("table" => "user", "source" => array("Host", "User"), "target" => array("Host", "User"))),
 				"db" => array(array("table" => "user", "source" => array("Host", "User"), "target" => array("Host", "User"))),
@@ -30,7 +30,7 @@ class AdminerForeignSystem extends Adminer\Plugin {
 			);
 			return $return[$table];
 
-		} elseif (Adminer\DB == "information_schema" || $_GET["ns"] == "information_schema") {
+		} elseif (Woofminer\DB == "information_schema" || $_GET["ns"] == "information_schema") {
 			$schemata = $this->schemata("TABLE");
 			$tables = $this->tables("TABLE");
 			$columns = array("table" => "COLUMNS", "source" => array("TABLE_CATALOG", "TABLE_SCHEMA", "TABLE_NAME", "COLUMN_NAME"), "target" => array("TABLE_CATALOG", "TABLE_SCHEMA", "TABLE_NAME", "COLUMN_NAME"));
@@ -91,7 +91,7 @@ class AdminerForeignSystem extends Adminer\Plugin {
 			}
 			return $return[strtoupper($table)];
 
-		} elseif (Adminer\DRIVER == "pgsql" && $_GET["ns"] == "pg_catalog") {
+		} elseif (Woofminer\DRIVER == "pgsql" && $_GET["ns"] == "pg_catalog") {
 			$mapping = array(
 				'pg_aggregate' => array('aggfnoid.proc', 'aggtransfn.proc', 'aggfinalfn.proc', 'aggcombinefn.proc', 'aggserialfn.proc', 'aggdeserialfn.proc', 'aggmtransfn.proc', 'aggminvtransfn.proc', 'aggmfinalfn.proc', 'aggsortop.operator', 'aggtranstype.type', 'aggmtranstype.type'),
 				'pg_am' => array('amhandler.proc'),
@@ -191,5 +191,47 @@ class AdminerForeignSystem extends Adminer\Plugin {
 		'pl' => array('' => 'Połącz tabele systemowe (w bazach danych "mysql" i "information_schema") za pomocą kluczy obcych'),
 		'ro' => array('' => 'Conectați tabelele de sistem (în bazele de date "mysql" și "information_schema") prin chei străine'),
 		'ja' => array('' => 'システムテーブル ("mysql" と "information_schema") を外部キーを用いて接続'),
+		'ar' => array('' => null),
+		'bg' => array('' => null),
+		'bn' => array('' => null),
+		'bs' => array('' => null),
+		'ca' => array('' => null),
+		'da' => array('' => null),
+		'el' => array('' => null),
+		'en' => array(
+		),
+		'es' => array('' => null),
+		'et' => array('' => null),
+		'fa' => array('' => null),
+		'fi' => array('' => null),
+		'fr' => array('' => null),
+		'gl' => array('' => null),
+		'he' => array('' => null),
+		'hi' => array('' => null),
+		'hu' => array('' => null),
+		'id' => array('' => null),
+		'it' => array('' => null),
+		'ka' => array('' => null),
+		'ko' => array('' => null),
+		'lt' => array('' => null),
+		'lv' => array('' => null),
+		'ms' => array('' => null),
+		'nl' => array('' => null),
+		'no' => array('' => null),
+		'pt-br' => array('' => null),
+		'pt' => array('' => null),
+		'ru' => array('' => null),
+		'sk' => array('' => null),
+		'sl' => array('' => null),
+		'sr' => array('' => null),
+		'sv' => array('' => null),
+		'ta' => array('' => null),
+		'th' => array('' => null),
+		'tr' => array('' => null),
+		'uk' => array('' => null),
+		'uz' => array('' => null),
+		'vi' => array('' => null),
+		'zh-tw' => array('' => null),
+		'zh' => array('' => null),
 	);
 }

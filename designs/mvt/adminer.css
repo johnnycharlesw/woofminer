@@ -1,15 +1,15 @@
 /**
-* Adminer theme by Aleksey M. (alekseymvt@gmail.com)
-* @link https://github.com/alekseymvt/Adminer.theme
-* @link https://github.com/vrana/adminer/
-* @link https://www.adminer.org/
+* Woofminer theme by Aleksey M. (alekseymvt@gmail.com)
+* @link https://github.com/alekseymvt/Woofminer.theme
+* @link https://github.com/johnnycharlesw/woofminer/
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/
 * -----------
 * Based on work by:
-* FLAT UI Flavored Adminer Theme by M. Mahbubur Rahman (mahbub@mahbubblog.com)
-* designs/pappu687/adminer.css
+* FLAT UI Flavored Woofminer Theme by M. Mahbubur Rahman (mahbub@mahbubblog.com)
+* designs/pappu687/woofminer.css
 * -----------
 * Based on work by : Lukáš Brandejs
-* https://raw.github.com/vrana/adminer/master/designs/ng9/adminer.css
+* https://raw.github.com/johnnycharlesw/woofminer/master/designs/ng9/woofminer.css
 */
 
 /*! normalize.css v4.2.0 | MIT License | github.com/necolas/normalize.css */
@@ -235,7 +235,7 @@ td, th {
 	padding: 2px;
 }
 
-/** -------------- Adminer.css ---------------*/
+/** -------------- Woofminer.css ---------------*/
 
 html {
 	font-size: 14px

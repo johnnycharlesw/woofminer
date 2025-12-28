@@ -1,10 +1,10 @@
 <?php
-namespace Adminer;
+namespace Woofminer;
 
 add_driver("mongo", "MongoDB (alpha)");
 
 if (isset($_GET["mongo"])) {
-	define('Adminer\DRIVER', "mongo");
+	define('Woofminer\DRIVER', "mongo");
 
 	if (class_exists('MongoDB\Driver\Manager')) {
 		class Db extends SqlDb {
@@ -18,7 +18,7 @@ if (isset($_GET["mongo"])) {
 					$options["username"] = $username;
 					$options["password"] = $password;
 				}
-				$db = adminer()->database();
+				$db = woofminer()->database();
 				if ($db != "") {
 					$options["db"] = $db;
 				}
@@ -243,7 +243,7 @@ if (isset($_GET["mongo"])) {
 							list(, $class, $val) = $match;
 							$val = new $class($val);
 						}
-						if (!in_array($op, adminer()->operators())) {
+						if (!in_array($op, woofminer()->operators())) {
 							continue;
 						}
 						if (preg_match('~^\(f\)(.+)~', $op, $match)) {
@@ -430,7 +430,7 @@ if (isset($_GET["mongo"])) {
 	}
 
 	function logged_user() {
-		$credentials = adminer()->credentials();
+		$credentials = woofminer()->credentials();
 		return $credentials[1];
 	}
 

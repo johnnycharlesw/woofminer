@@ -3,12 +3,12 @@
 * @author Steve Krämer
 */
 
-namespace Adminer;
+namespace Woofminer;
 
 add_driver('firebird', 'Firebird (alpha)');
 
 if (isset($_GET["firebird"])) {
-	define('Adminer\DRIVER', "firebird");
+	define('Woofminer\DRIVER', "firebird");
 
 	if (extension_loaded("interbase")) {
 		class Db extends SqlDb {
@@ -120,7 +120,7 @@ if (isset($_GET["firebird"])) {
 	}
 
 	function logged_user() {
-		$credentials = adminer()->credentials();
+		$credentials = woofminer()->credentials();
 		return $credentials[1];
 	}
 

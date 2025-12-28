@@ -1,31 +1,31 @@
 #!/usr/bin/env php
 <?php
-include __DIR__ . "/adminer/include/errors.inc.php";
+include __DIR__ . "/woofminer/include/errors.inc.php";
 
 unset($_COOKIE["adminer_lang"]);
-$_SESSION["lang"] = $_SERVER["argv"][1]; // Adminer functions read language from session
+$_SESSION["lang"] = $_SERVER["argv"][1]; // Woofminer functions read language from session
 if (isset($_SESSION["lang"])) {
-	if (isset($_SERVER["argv"][2]) || !file_exists(__DIR__ . "/adminer/lang/$_SESSION[lang].inc.php")) {
-		echo "Usage: php lang.php [lang]\nPurpose: Update adminer/lang/*.inc.php from source code messages.\n";
+	if (isset($_SERVER["argv"][2]) || !file_exists(__DIR__ . "/woofminer/lang/$_SESSION[lang].inc.php")) {
+		echo "Usage: php lang.php [lang]\nPurpose: Update woofminer/lang/*.inc.php from source code messages.\n";
 		exit(1);
 	}
 }
 
 $messages_all = array();
-foreach (glob(__DIR__ . "/{adminer,adminer/include,adminer/drivers,editor,editor/include}/*.php", GLOB_BRACE) as $include) {
+foreach (glob(__DIR__ . "/{woofminer,woofminer/include,woofminer/drivers,editor,editor/include}/*.php", GLOB_BRACE) as $include) {
 	$file = file_get_contents($include);
 	if (preg_match_all("~[^>]lang\\(('(?:[^\\\\']+|\\\\.)*')([),])~", $file, $matches)) { // lang() always uses apostrophes
 		$messages_all += array_combine($matches[1], $matches[2]);
 	}
 }
 
-foreach (glob(__DIR__ . "/adminer/lang/" . ($_SESSION["lang"] ?: "*") . ".inc.php") as $filename) {
+foreach (glob(__DIR__ . "/woofminer/lang/" . ($_SESSION["lang"] ?: "*") . ".inc.php") as $filename) {
 	$lang = basename($filename, ".inc.php");
 	update_translations($lang, $messages_all, $filename, '~(\$translations = array\(\n)(.*\n)(?=\);)~sU');
 	if ($lang != "xx") {
 		foreach (glob(__DIR__ . "/plugins/*.php") as $filename) {
 			$file = file_get_contents($filename);
-			if (preg_match('~extends Adminer\\\\Plugin~', $file)) {
+			if (preg_match('~extends Woofminer\\\\Plugin~', $file)) {
 				preg_match_all("~\\\$this->lang\\(('(?:[^\\\\']+|\\\\.)*')([),])~", $file, $matches);
 				$messages = array("''" => "") + array_combine($matches[1], $matches[2]);
 				$file = preg_replace("~(\\\$translations = array\\((?!.*'$lang').*?)\t\\);~s", "\\1\t\t'$lang' => array(\n\t\t),\n\t);", $file);

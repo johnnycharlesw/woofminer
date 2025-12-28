@@ -1,10 +1,10 @@
 <?php
-namespace Adminer;
+namespace Woofminer;
 
 add_driver("simpledb", "SimpleDB");
 
 if (isset($_GET["simpledb"])) {
-	define('Adminer\DRIVER', "simpledb");
+	define('Woofminer\DRIVER', "simpledb");
 
 	if (class_exists('SimpleXMLElement') && ini_bool('allow_url_fopen')) {
 		class Db extends SqlDb {
@@ -149,7 +149,7 @@ if (isset($_GET["simpledb"])) {
 		private function extractIds($table, $queryWhere, $limit) {
 			$return = array();
 			if (preg_match_all("~itemName\(\) = (('[^']*+')+)~", $queryWhere, $matches)) {
-				$return = array_map('Adminer\idf_unescape', $matches[1]);
+				$return = array_map('Woofminer\idf_unescape', $matches[1]);
 			} else {
 				foreach (sdb_request_all('Select', 'Item', array('SelectExpression' => 'SELECT itemName() FROM ' . table($table) . $queryWhere . ($limit ? " LIMIT 1" : ""))) as $item) {
 					$return[] = $item->Name;
@@ -257,7 +257,7 @@ if (isset($_GET["simpledb"])) {
 	}
 
 	function logged_user() {
-		$credentials = adminer()->credentials();
+		$credentials = woofminer()->credentials();
 		return $credentials[1];
 	}
 
@@ -277,7 +277,7 @@ if (isset($_GET["simpledb"])) {
 		foreach (sdb_request_all('ListDomains', 'DomainName') as $table) {
 			$return[(string) $table] = 'table';
 		}
-		if (connection()->error && defined('Adminer\PAGE_HEADER')) {
+		if (connection()->error && defined('Woofminer\PAGE_HEADER')) {
 			echo "<p class='error'>" . error() . "\n";
 		}
 		return $return;
@@ -377,7 +377,7 @@ if (isset($_GET["simpledb"])) {
 	}
 
 	function sdb_request($action, $params = array()) {
-		list($host, $params['AWSAccessKeyId'], $secret) = adminer()->credentials();
+		list($host, $params['AWSAccessKeyId'], $secret) = woofminer()->credentials();
 		$params['Action'] = $action;
 		$params['Timestamp'] = gmdate('Y-m-d\TH:i:s+00:00');
 		$params['Version'] = '2009-04-15';

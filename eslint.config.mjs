@@ -1,4 +1,4 @@
-// prepend adminer/include/functions.js to adminer/include/editing.js and editor/include/editing.js, then delete
+// prepend woofminer/include/functions.js to woofminer/include/editing.js and editor/include/editing.js, then delete
 
 import { globalIgnores } from "eslint/config";
 import js from "@eslint/js";

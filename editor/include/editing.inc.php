@@ -1,5 +1,5 @@
 <?php
-namespace Adminer;
+namespace Woofminer;
 
 function doc_link(array $paths, string $text = ""): string {
 	return "";
@@ -36,7 +36,7 @@ function send_mail(string $email, string $subject, string $message, string $from
 		$beginning = "--$boundary$eol$headers$eol$eol";
 		$headers = "Content-Type: multipart/mixed; boundary=\"$boundary\"";
 	}
-	$headers .= $eol . "MIME-Version: 1.0$eol" . "X-Mailer: Adminer Editor"
+	$headers .= $eol . "MIME-Version: 1.0$eol" . "X-Mailer: Woofminer Editor"
 		. ($from ? $eol . "From: " . str_replace("\n", "", $from) : "") //! should escape display name
 	;
 	return mail($email, email_header($subject), $beginning . $message . $attachments, $headers);

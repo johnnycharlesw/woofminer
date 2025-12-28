@@ -1,13 +1,13 @@
 <?php
-namespace Adminer;
+namespace Woofminer;
 
-class Adminer {
+class Woofminer {
 	static $instance;
 	public $error = '';
 	private $values = array();
 
 	function name() {
-		return "<a href='https://www.adminer.org/editor/'" . target_blank() . " id='h1'><img src='../adminer/static/logo.png' width='24' height='24' alt='' id='logo'>" . lang('Editor') . "</a>";
+		return "<a href='https://www.github.com/johnnycharlesw/woofminer/wiki/editor/'" . target_blank() . " id='h1'><img src='../woofminer/static/logo.png' width='24' height='24' alt='' id='logo'>" . lang('Editor') . "</a>";
 	}
 
 	//! driver, ns
@@ -32,7 +32,7 @@ class Adminer {
 
 	function database() {
 		if (connection()) {
-			$databases = adminer()->databases(false);
+			$databases = woofminer()->databases(false);
 			return (!$databases
 				? get_val("SELECT SUBSTRING_INDEX(CURRENT_USER, '@', 1)") // username without the database list
 				: $databases[(information_schema($databases[0]) ? 1 : 0)] // first available database
@@ -80,7 +80,7 @@ class Adminer {
 	function css() {
 		$return = array();
 		foreach (array("", "-dark") as $mode) {
-			$filename = "adminer$mode.css";
+			$filename = "woofminer$mode.css";
 			if (file_exists($filename)) {
 				$file = file_get_contents($filename);
 				$return["$filename?v=" . crc32($file)] = ($mode
@@ -94,8 +94,8 @@ class Adminer {
 
 	function loginForm() {
 		echo "<table class='layout'>\n";
-		echo adminer()->loginFormField('username', '<tr><th>' . lang('Username') . '<td>', input_hidden("auth[driver]", "server") . '<input name="auth[username]" autofocus value="' . h($_GET["username"]) . '" autocomplete="username" autocapitalize="off">');
-		echo adminer()->loginFormField('password', '<tr><th>' . lang('Password') . '<td>', '<input type="password" name="auth[password]" autocomplete="current-password">');
+		echo woofminer()->loginFormField('username', '<tr><th>' . lang('Username') . '<td>', input_hidden("auth[driver]", "server") . '<input name="auth[username]" autofocus value="' . h($_GET["username"]) . '" autocomplete="username" autocapitalize="off">');
+		echo woofminer()->loginFormField('password', '<tr><th>' . lang('Password') . '<td>', '<input type="password" name="auth[password]" autocomplete="current-password">');
 		echo "</table>\n";
 		echo "<p><input type='submit' value='" . lang('Login') . "'>\n";
 		echo checkbox("auth[permanent]", 1, $_COOKIE["adminer_permanent"], lang('Permanent login')) . "\n";
@@ -136,15 +136,15 @@ class Adminer {
 		foreach (
 			get_rows("SELECT TABLE_NAME, CONSTRAINT_NAME, COLUMN_NAME, REFERENCED_COLUMN_NAME
 FROM information_schema.KEY_COLUMN_USAGE
-WHERE TABLE_SCHEMA = " . q(adminer()->database()) . "
-AND REFERENCED_TABLE_SCHEMA = " . q(adminer()->database()) . "
+WHERE TABLE_SCHEMA = " . q(woofminer()->database()) . "
+AND REFERENCED_TABLE_SCHEMA = " . q(woofminer()->database()) . "
 AND REFERENCED_TABLE_NAME = " . q($table) . "
 ORDER BY ORDINAL_POSITION", null, "") as $row
 		) {
 			$return[$row["TABLE_NAME"]]["keys"][$row["CONSTRAINT_NAME"]][$row["COLUMN_NAME"]] = $row["REFERENCED_COLUMN_NAME"];
 		}
 		foreach ($return as $key => $val) {
-			$name = adminer()->tableName(table_status1($key, true));
+			$name = woofminer()->tableName(table_status1($key, true));
 			if ($name != "") {
 				$search = preg_quote($tableName);
 				$separator = "(:|\\s*-)?\\s+";
@@ -289,14 +289,14 @@ ORDER BY ORDINAL_POSITION", null, "") as $row
 		foreach ($where as $val) {
 			if (($val["col"] == "" || $columns[$val["col"]]) && "$val[col]$val[val]" != "") {
 				echo "<div><select name='where[$i][col]'><option value=''>(" . lang('anywhere') . ")" . optionlist($columns, $val["col"], true) . "</select>";
-				echo html_select("where[$i][op]", array(-1 => "") + adminer()->operators(), $val["op"]);
+				echo html_select("where[$i][op]", array(-1 => "") + woofminer()->operators(), $val["op"]);
 				echo "<input type='search' name='where[$i][val]' value='" . h($val["val"]) . "'>" . script("mixin(qsl('input'), {onkeydown: selectSearchKeydown, onsearch: selectSearchSearch});", "") . "</div>\n";
 				$i++;
 			}
 		}
 		echo "<div><select name='where[$i][col]'><option value=''>(" . lang('anywhere') . ")" . optionlist($columns, null, true) . "</select>";
 		echo script("qsl('select').onchange = selectAddRow;", "");
-		echo html_select("where[$i][op]", array(-1 => "") + adminer()->operators());
+		echo html_select("where[$i][op]", array(-1 => "") + woofminer()->operators());
 		echo "<input type='search' name='where[$i][val]'></div>";
 		echo script("mixin(qsl('input'), {onchange: function () { this.parentNode.firstChild.onchange(); }, onsearch: selectSearchSearch});");
 		echo "</div></fieldset>\n";
@@ -378,9 +378,9 @@ ORDER BY ORDINAL_POSITION", null, "") as $row
 							$conds[] = (in_array("null", $val) ? "$name IS NULL OR " : "") . ($in ? "$name IN (" . implode(", ", $in) . ")" : "0");
 						} else {
 							$text_type = preg_match('~char|text|enum|set~', $field["type"]);
-							$value = adminer()->processInput($field, (!$op && $text_type && preg_match('~^[^%]+$~', $val) ? "%$val%" : $val));
+							$value = woofminer()->processInput($field, (!$op && $text_type && preg_match('~^[^%]+$~', $val) ? "%$val%" : $val));
 							$conds[] = driver()->convertSearch($name, $where, $field) . ($value == "NULL" ? " IS" . ($op == ">=" ? " NOT" : "") . " $value"
-								: (in_array($op, adminer()->operators()) || $op == "=" ? " $op $value"
+								: (in_array($op, woofminer()->operators()) || $op == "=" ? " $op $value"
 								: ($text_type ? " LIKE $value"
 								: " IN (" . ($value[0] == "'" ? str_replace(",", "', '", $value) : $value) . ")"
 							)));
@@ -570,9 +570,9 @@ ORDER BY ORDINAL_POSITION", null, "") as $row
 	}
 
 	function navigation($missing) {
-		echo "<h1>" . adminer()->name() . " <span class='version'>" . VERSION;
+		echo "<h1>" . woofminer()->name() . " <span class='version'>" . VERSION;
 		$new_version = $_COOKIE["adminer_version"];
-		echo " <a href='https://www.adminer.org/editor/#download'" . target_blank() . " id='version'>" . (version_compare(VERSION, $new_version) < 0 ? h($new_version) : "") . "</a>";
+		echo " <a href='https://www.github.com/johnnycharlesw/woofminer/wiki/editor/#download'" . target_blank() . " id='version'>" . (version_compare(VERSION, $new_version) < 0 ? h($new_version) : "") . "</a>";
 		echo "</span></h1>\n";
 		switch_lang();
 		if ($missing == "auth") {
@@ -590,13 +590,13 @@ ORDER BY ORDINAL_POSITION", null, "") as $row
 				}
 			}
 		} else {
-			adminer()->databasesPrint($missing);
+			woofminer()->databasesPrint($missing);
 			if ($missing != "db" && $missing != "ns") {
 				$table_status = table_status('', true);
 				if (!$table_status) {
 					echo "<p class='message'>" . lang('No tables.') . "\n";
 				} else {
-					adminer()->tablesPrint($table_status);
+					woofminer()->tablesPrint($table_status);
 				}
 			}
 		}
@@ -613,7 +613,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row
 		echo script("mixin(qs('#tables'), {onmouseover: menuOver, onmouseout: menuOut});");
 		foreach ($tables as $row) {
 			echo '<li>';
-			$name = adminer()->tableName($row);
+			$name = woofminer()->tableName($row);
 			if ($name != "") { // ignore tables without name
 				echo "<a href='" . h(ME) . 'select=' . urlencode($row["Name"]) . "'"
 					. bold($_GET["select"] == $row["Name"] || $_GET["edit"] == $row["Name"], "select")
@@ -627,7 +627,7 @@ ORDER BY ORDINAL_POSITION", null, "") as $row
 	function _foreignColumn($foreignKeys, $column) {
 		foreach ((array) $foreignKeys[$column] as $foreignKey) {
 			if (count($foreignKey["source"]) == 1) {
-				$name = adminer()->rowDescription($foreignKey["table"]);
+				$name = woofminer()->rowDescription($foreignKey["table"]);
 				if ($name != "") {
 					$id = idf_escape($foreignKey["target"][0]);
 					return array($foreignKey["table"], $id, $name);

@@ -7,15 +7,15 @@
 * - editing the message shows some other information
 * - deleting marks the message for deletion but doesn't expunge the mailbox
 * - inserting or updating the message does nothing
-* @link https://www.adminer.org/static/plugins/imap.png
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/static/plugins/imap.png
 */
 
-namespace Adminer;
+namespace Woofminer;
 
 add_driver("imap", "IMAP");
 
 if (isset($_GET["imap"])) {
-	define('Adminer\DRIVER', "imap");
+	define('Woofminer\DRIVER', "imap");
 
 	if (extension_loaded("imap")) {
 		class Db extends SqlDb {
@@ -26,7 +26,7 @@ if (isset($_GET["imap"])) {
 
 			function attach($server, $username, $password): string {
 				list($host, $port) = host_port($server);
-				$this->mailbox = "{" . "$host:" . ($port ?: 993) . "/ssl}"; // Adminer disallows specifying privileged port in server name
+				$this->mailbox = "{" . "$host:" . ($port ?: 993) . "/ssl}"; // Woofminer disallows specifying privileged port in server name
 				$this->imap = @imap_open($this->mailbox, $username, $password, OP_HALFOPEN, 1);
 				return ($this->imap ? '' : imap_last_error());
 			}

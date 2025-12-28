@@ -1,2 +1,2 @@
 ## Screenshot
-![screenshot](https://www.adminer.org/static/designs/pepa-linha/screenshot.png)
+![screenshot](https://www.github.com/johnnycharlesw/woofminer/wiki/static/designs/pepa-linha/screenshot.png)

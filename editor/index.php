@@ -1,15 +1,15 @@
 <?php
-/** Adminer Editor - Compact database editor
-* @link https://www.adminer.org/
+/** Woofminer Editor - Compact database editor
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/
 * @author Jakub Vrana, https://www.vrana.cz/
 * @copyright 2009 Jakub Vrana
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
 
-namespace Adminer;
+namespace Woofminer;
 
-include "../adminer/include/bootstrap.inc.php";
+include "../woofminer/include/bootstrap.inc.php";
 add_driver(DRIVER, lang('Login'));
 
 if (isset($_GET["select"]) && ($_POST["edit"] || $_POST["clone"]) && !$_POST["save"]) {
@@ -17,11 +17,11 @@ if (isset($_GET["select"]) && ($_POST["edit"] || $_POST["clone"]) && !$_POST["sa
 }
 
 if (isset($_GET["download"])) {
-	include "../adminer/download.inc.php";
+	include "../woofminer/download.inc.php";
 } elseif (isset($_GET["edit"])) {
-	include "../adminer/edit.inc.php";
+	include "../woofminer/edit.inc.php";
 } elseif (isset($_GET["select"])) {
-	include "../adminer/select.inc.php";
+	include "../woofminer/select.inc.php";
 } elseif (isset($_GET["script"])) {
 	include "./script.inc.php";
 } else {

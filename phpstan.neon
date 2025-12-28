@@ -4,21 +4,21 @@ parameters:
 
 	ignoreErrors:
 		# need to fix
-		- "~^Function Adminer\\\\fields_from_edit\\(\\) should return|Adminer\\\\Driver::\\$primary~" # Mongo and SimpleDB
-		- "~Adminer\\\\Result.*mysqli_result~" # mysqli_result
-		- "~Function Adminer\\\\queries\\(\\) never returns Adminer\\\\Result~" # mysqli_result
+		- "~^Function Woofminer\\\\fields_from_edit\\(\\) should return|Woofminer\\\\Driver::\\$primary~" # Mongo and SimpleDB
+		- "~Woofminer\\\\Result.*mysqli_result~" # mysqli_result
+		- "~Function Woofminer\\\\queries\\(\\) never returns Woofminer\\\\Result~" # mysqli_result
 
 		# not real problems
 		- identifier: include.fileNotFound # includes in include/ relative from index.php
-		- identifier: includeOnce.fileNotFound # ./adminer-plugins.php
+		- identifier: includeOnce.fileNotFound # ./woofminer-plugins.php
 		- "~^Function (set_magic_quotes_runtime|mysql_)~" # PHP < 7 functions
 		- "~an unknown class OCI-?Lob~" # this looks like PHPStan bug
 		- "~^Variable \\$error might not be defined~" # declared in bootstrap.inc.php
 		- "~^Constant LANG not found~" # defined in lang.inc.php
-		- "~ an undefined \\w+ Adminer\\\\Db::~" # defined in that versions of Db
-		- "~^Call to an undefined method Adminer\\\\Result::seek~" # defined in MS SQL
-		- "~^Call to an undefined method Adminer\\\\Driver::(setUserTypes|tableOid)~" # defined in PostgreSQL
-		- "~^Access to an undefined property Adminer\\\\Driver::\\$nsOid~" # defined in PostgreSQL
+		- "~ an undefined \\w+ Woofminer\\\\Db::~" # defined in that versions of Db
+		- "~^Call to an undefined method Woofminer\\\\Result::seek~" # defined in MS SQL
+		- "~^Call to an undefined method Woofminer\\\\Driver::(setUserTypes|tableOid)~" # defined in PostgreSQL
+		- "~^Access to an undefined property Woofminer\\\\Driver::\\$nsOid~" # defined in PostgreSQL
 		- "~expects int, float given~" # this will work
 		- "~expects bool~" # truthy values
 		- "~fread expects int<1, max>, 100000~" # 1e6
@@ -27,8 +27,8 @@ parameters:
 		-
 			message: "~ type specified~" # duplicate functions and methods
 			paths:
-				- adminer/include/pdo.inc.php
-				- adminer/drivers/*
+				- woofminer/include/pdo.inc.php
+				- woofminer/drivers/*
 
 		# it probably doesn't like $ar[$key] instead of isset($ar[$key]) and thinks that $ar[$key] is always set
 		- identifier: identical.alwaysFalse
@@ -45,19 +45,19 @@ parameters:
 		- identifier: if.alwaysTrue
 		- identifier: isset.offset
 		- identifier: deadCode.unreachable
-		- "~Function Adminer\\\\get_driver\\(\\) never returns null~"
+		- "~Function Woofminer\\\\get_driver\\(\\) never returns null~"
 		- "~on array\\{}~"
 
 	paths:
-		- adminer/drivers/mysql.inc.php # other drivers inherit the annotations so we take them from here
-		- adminer/
+		- woofminer/drivers/mysql.inc.php # other drivers inherit the annotations so we take them from here
+		- woofminer/
 	scanFiles:
 		- compile.php # compile_file()
 	excludePaths:
-		- adminer/adminer-plugins*
-		- adminer/designs.php
-		- adminer/elastic.php
-		- adminer/sqlite.php
+		- woofminer/woofminer-plugins*
+		- woofminer/designs.php
+		- woofminer/elastic.php
+		- woofminer/sqlite.php
 
 	phpVersion:
 		min: 70100

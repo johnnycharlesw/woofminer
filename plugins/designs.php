@@ -1,12 +1,12 @@
 <?php
 
 /** Allow switching designs
-* @link https://www.adminer.org/plugins/#use
+* @link https://www.github.com/johnnycharlesw/woofminer/wiki/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
-class AdminerDesigns extends Adminer\Plugin {
+class AdminerDesigns extends Woofminer\Plugin {
 	protected $designs;
 
 	/**
@@ -17,10 +17,10 @@ class AdminerDesigns extends Adminer\Plugin {
 	}
 
 	function headers() {
-		if (isset($_POST["design"]) && Adminer\verify_token()) {
-			Adminer\restart_session();
+		if (isset($_POST["design"]) && Woofminer\verify_token()) {
+			Woofminer\restart_session();
 			$_SESSION["design"] = $_POST["design"];
-			Adminer\redirect($_SERVER["REQUEST_URI"]);
+			Woofminer\redirect($_SERVER["REQUEST_URI"]);
 		}
 	}
 
@@ -34,13 +34,13 @@ class AdminerDesigns extends Adminer\Plugin {
 
 	function navigation($missing) {
 		echo "<form action='' method='post' style='position: fixed; bottom: .5em; right: .5em;'>";
-		echo Adminer\html_select("design", array("" => "(design)") + $this->designs, $_SESSION["design"], "this.form.submit();");
-		echo Adminer\input_token();
+		echo Woofminer\html_select("design", array("" => "(design)") + $this->designs, $_SESSION["design"], "this.form.submit();");
+		echo Woofminer\input_token();
 		echo "</form>\n";
 	}
 
 	function screenshot() {
-		return "https://www.adminer.org/static/plugins/designs.png";
+		return "https://www.github.com/johnnycharlesw/woofminer/wiki/static/plugins/designs.png";
 	}
 
 	protected $translations = array(
@@ -49,5 +49,47 @@ class AdminerDesigns extends Adminer\Plugin {
 		'pl' => array('' => 'Zezwalaj na przełączanie motywów'),
 		'ro' => array('' => 'Permiteți comutarea designurilor'),
 		'ja' => array('' => 'テーマ設定を有効化'),
+		'ar' => array('' => null),
+		'bg' => array('' => null),
+		'bn' => array('' => null),
+		'bs' => array('' => null),
+		'ca' => array('' => null),
+		'da' => array('' => null),
+		'el' => array('' => null),
+		'en' => array(
+		),
+		'es' => array('' => null),
+		'et' => array('' => null),
+		'fa' => array('' => null),
+		'fi' => array('' => null),
+		'fr' => array('' => null),
+		'gl' => array('' => null),
+		'he' => array('' => null),
+		'hi' => array('' => null),
+		'hu' => array('' => null),
+		'id' => array('' => null),
+		'it' => array('' => null),
+		'ka' => array('' => null),
+		'ko' => array('' => null),
+		'lt' => array('' => null),
+		'lv' => array('' => null),
+		'ms' => array('' => null),
+		'nl' => array('' => null),
+		'no' => array('' => null),
+		'pt-br' => array('' => null),
+		'pt' => array('' => null),
+		'ru' => array('' => null),
+		'sk' => array('' => null),
+		'sl' => array('' => null),
+		'sr' => array('' => null),
+		'sv' => array('' => null),
+		'ta' => array('' => null),
+		'th' => array('' => null),
+		'tr' => array('' => null),
+		'uk' => array('' => null),
+		'uz' => array('' => null),
+		'vi' => array('' => null),
+		'zh-tw' => array('' => null),
+		'zh' => array('' => null),
 	);
 }

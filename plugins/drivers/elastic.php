@@ -1,10 +1,10 @@
 <?php
-namespace Adminer;
+namespace Woofminer;
 
 add_driver("elastic", "Elasticsearch 7 (beta)");
 
 if (isset($_GET["elastic"])) {
-	define('Adminer\DRIVER', "elastic");
+	define('Woofminer\DRIVER', "elastic");
 
 	if (ini_bool('allow_url_fopen')) {
 
@@ -193,7 +193,7 @@ if (isset($_GET["elastic"])) {
 			$search = $this->conn->rootQuery($query, $data);
 
 			if ($print) {
-				echo adminer()->selectQuery("$query: " . json_encode($data), $start, !$search);
+				echo woofminer()->selectQuery("$query: " . json_encode($data), $start, !$search);
 			}
 			if (empty($search)) {
 				return false;
@@ -294,7 +294,7 @@ if (isset($_GET["elastic"])) {
 	}
 
 	function logged_user() {
-		$credentials = adminer()->credentials();
+		$credentials = woofminer()->credentials();
 
 		return $credentials[1];
 	}
