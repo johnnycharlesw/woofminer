@@ -1,8 +1,6 @@
 <?php
 
 /** Use VS Code's Monaco Editor for syntax highlighting and SQL <textarea>
-* @link https://microsoft.github.io/monaco-editor/
-* @link https://www.github.com/johnnycharlesw/woofminer/wiki/plugins/#use
 * @author Jakub Vrana, https://www.vrana.cz/
 * @license https://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
@@ -62,7 +60,7 @@ addEventListener('DOMContentLoaded', () => {
 			/jush-js/.test(el.className) ? 'javascript' : (
 			/jush-sql/.test(el.className) ? 'mysql' : (
 			/jush-pgsql/.test(el.className) ? 'pgsql' : (
-			/jush-(sqlite|mssql|oracle|clickhouse|firebird)/.test(el.className) ? 'sql' : (
+			/jush-(sqlite|clickhouse|firebird)/.test(el.className) ? 'sql' : (
 			''
 		)))));
 	}

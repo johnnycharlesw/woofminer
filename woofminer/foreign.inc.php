@@ -107,8 +107,6 @@ foreach ($row["source"] as $key => $val) {
 	'sql' => "innodb-foreign-key-constraints.html",
 	'mariadb' => "foreign-keys/",
 	'pgsql' => "sql-createtable.html#SQL-CREATETABLE-REFERENCES",
-	'mssql' => "t-sql/statements/create-table-transact-sql",
-	'oracle' => "SQLRF01111",
 )); ?>
 <p>
 <input type="submit" value="<?php echo lang('Save'); ?>">

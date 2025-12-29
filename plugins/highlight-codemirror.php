@@ -49,7 +49,6 @@ addEventListener('DOMContentLoaded', () => {
 			const modes = {
 				js: 'application/json',
 				sql: 'text/x-<?php echo (Woofminer\connection()->flavor == "maria" ? "mariadb" : "mysql"); ?>',
-				oracle: 'text/x-sql',
 				clickhouse: 'text/x-sql',
 				firebird: 'text/x-sql'
 			};

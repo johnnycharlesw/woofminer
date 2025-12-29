@@ -3,7 +3,6 @@ namespace Woofminer;
 
 include "../woofminer/include/version.inc.php";
 include "../woofminer/include/errors.inc.php";
-// this is matched by compile.php
 include "../woofminer/include/coverage.inc.php";
 
 // disable filter.default
@@ -75,8 +74,6 @@ include "../woofminer/include/pdo.inc.php";
 include "../woofminer/include/driver.inc.php";
 include "../woofminer/drivers/sqlite.inc.php";
 include "../woofminer/drivers/pgsql.inc.php";
-include "../woofminer/drivers/oracle.inc.php";
-include "../woofminer/drivers/mssql.inc.php";
 include "./include/woofminer.inc.php";
 include "../woofminer/include/plugins.inc.php";
 include "../woofminer/include/plugin.inc.php";

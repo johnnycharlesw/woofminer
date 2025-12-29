@@ -66,7 +66,6 @@ echo ($_POST["add"] || strpos($name, "\n")
 ) . "\n" . ($collations ? html_select("collation", array("" => "(" . lang('collation') . ")") + $collations, $row["collation"]) . doc_link(array(
 	'sql' => "charset-charsets.html",
 	'mariadb' => "supported-character-sets-and-collations/",
-	'mssql' => "relational-databases/system-functions/sys-fn-helpcollations-transact-sql",
 )) : "");
 ?>
 <input type="submit" value="<?php echo lang('Save'); ?>">

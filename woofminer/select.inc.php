@@ -312,9 +312,6 @@ if (!$columns && support("table")) {
 		echo "<form action='' method='post' enctype='multipart/form-data'>\n";
 		$rows = array();
 		while ($row = $result->fetch_assoc()) {
-			if ($page && JUSH == "oracle") {
-				unset($row["RNUM"]);
-			}
 			$rows[] = $row;
 		}
 

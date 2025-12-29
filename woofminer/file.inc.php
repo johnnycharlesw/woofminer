@@ -32,8 +32,6 @@ if ($_GET["file"] == "default.css") {
 ../externals/jush/modules/jush-sql.js;
 ../externals/jush/modules/jush-pgsql.js;
 ../externals/jush/modules/jush-sqlite.js;
-../externals/jush/modules/jush-mssql.js;
-../externals/jush/modules/jush-oracle.js;
 ../externals/jush/modules/jush-simpledb.js', 'minify_js'));
 } elseif ($_GET["file"] == "logo.png") {
 	header("Content-Type: image/png");

@@ -221,7 +221,7 @@ function process_type(array $field, string $collate = "COLLATE"): string {
 	return " $field[type]"
 		. process_length($field["length"])
 		. (preg_match(number_type(), $field["type"]) && in_array($field["unsigned"], driver()->unsigned) ? " $field[unsigned]" : "")
-		. (preg_match('~char|text|enum|set~', $field["type"]) && $field["collation"] ? " $collate " . (JUSH == "mssql" ? $field["collation"] : q($field["collation"])) : "")
+		. (preg_match('~char|text|enum|set~', $field["type"]) && $field["collation"] ? " $collate " . q($field["collation"]) : "")
 	;
 }
 
@@ -253,7 +253,7 @@ function default_value(array $field): string {
 	$default = $field["default"];
 	$generated = $field["generated"];
 	return ($default === null ? "" : (in_array($generated, driver()->generated)
-		? (JUSH == "mssql" ? " AS ($default)" . ($generated == "VIRTUAL" ? "" : " $generated") . "" : " GENERATED ALWAYS AS ($default) $generated")
+		? " GENERATED ALWAYS AS ($default) $generated"
 		: " DEFAULT " . (!preg_match('~^GENERATED ~i', $default) && (preg_match('~char|binary|text|json|enum|set~', $field["type"]) || preg_match('~^(?![a-z])~i', $default))
 			? (JUSH == "sql" && preg_match('~text|json~', $field["type"]) ? "(" . q($default) . ")" : q($default)) // MySQL requires () around default value of text column
 			: str_ireplace("current_timestamp()", "CURRENT_TIMESTAMP", (JUSH == "sqlite" ? "($default)" : $default))
@@ -303,7 +303,6 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", array $f
 			'mariadb' => "auto_increment/",
 			'sqlite' => "autoinc.html",
 			'pgsql' => "datatype-numeric.html#DATATYPE-SERIAL",
-			'mssql' => "t-sql/statements/create-table-transact-sql-identity-property",
 		));
 		echo "<td id='label-default'$default_class>" . lang('Default value');
 		echo (support("comment") ? "<td id='label-comment'$comment_class>" . lang('Comment') : "");
@@ -444,7 +443,7 @@ function create_trigger(string $on, array $row): string {
 	$timing_event = " $row[Timing] $row[Event]" . (preg_match('~ OF~', $row["Event"]) ? " $row[Of]" : ""); // SQL injection
 	return "CREATE TRIGGER "
 		. idf_escape($row["Trigger"])
-		. (JUSH == "mssql" ? $on . $timing_event : $timing_event . $on)
+		. $timing_event . $on
 		. rtrim(" $row[Type]\n$row[Statement]", ";")
 		. ";"
 	;
@@ -523,14 +522,12 @@ function doc_link(array $paths, string $text = "<sup>?</sup>"): string {
 		'sql' => "https://dev.mysql.com/doc/refman/$version/en/",
 		'sqlite' => "https://www.sqlite.org/",
 		'pgsql' => "https://www.postgresql.org/docs/" . (connection()->flavor == 'cockroach' ? "current" : $version) . "/",
-		'mssql' => "https://learn.microsoft.com/en-us/sql/",
-		'oracle' => "https://www.oracle.com/pls/topic/lookup?ctx=db" . preg_replace('~^.* (\d+)\.(\d+)\.\d+\.\d+\.\d+.*~s', '\1\2', $server_info) . "&id=",
 	);
 	if (connection()->flavor == 'maria') {
 		$urls['sql'] = "https://mariadb.com/kb/en/";
 		$paths['sql'] = (isset($paths['mariadb']) ? $paths['mariadb'] : str_replace(".html", "/", $paths['sql']));
 	}
-	return ($paths[JUSH] ? "<a href='" . h($urls[JUSH] . $paths[JUSH] . (JUSH == 'mssql' ? "?view=sql-server-ver$version" : "")) . "'" . target_blank() . ">$text</a>" : "");
+	return ($paths[JUSH] ? "<a href='" . h($urls[JUSH] . $paths[JUSH]) . "'" . target_blank() . ">$text</a>" : "");
 }
 
 /** Compute size of database

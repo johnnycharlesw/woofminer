@@ -22,8 +22,9 @@ JavaScript data validation - columns containing word email, url, ...
 Joining tables - PRIMARY KEY (table, joining)
 Rank, Tree structure
 
-MySQL:
+MariaDB:
 Data longer than max_allowed_packet can be sent by mysqli_stmt_send_long_data()
+Add user management support
 
 SQLite:
 Copy tables
